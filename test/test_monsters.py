@@ -1,6 +1,7 @@
 import pytest
 from ..monsters.pokemon_monster import Pokemon
 from ..monsters.pokemon_data import Natures
+from ..monsters.pokemon_team import PokemonTeam
 
 def test_charizard():
     charizard = Pokemon(name="charizard", gender="male", held_item="Charizardite X", ability="Blaze", nature=Natures.ADAMANT, evs=[252, 252, 0, 0, 4, 0], ivs=[31, 31, 31, 31, 31, 31], moves=["Flare Blitz", "Dragon Claw", "Heat Wave", "Earthquake"])
@@ -19,4 +20,16 @@ def test_charizard():
     charizard.set_ability("Solar Power")
 
     assert not charizard.check_valid_pokemon()
+
+def test_all_charizard_team():
+        charizard = Pokemon(name="charizard", gender="male", held_item="Charizardite X", ability="Blaze", nature=Natures.ADAMANT, evs=[252, 252, 0, 0, 4, 0], ivs=[31, 31, 31, 31, 31, 31], moves=["Flare Blitz", "Dragon Claw", "Heat Wave", "Earthquake"])
+        poke_team = PokemonTeam()
+        poke_team.add_pokemon(charizard)
+        poke_team.add_pokemon(charizard)
+        poke_team.add_pokemon(charizard)
+        poke_team.add_pokemon(charizard)
+        poke_team.add_pokemon(charizard)
+        poke_team.add_pokemon(charizard)
+
+        assert poke_team.check_valid_team()
   
