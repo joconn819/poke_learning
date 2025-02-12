@@ -10,7 +10,7 @@ class Pokemon():
         self.nature = nature
         self.evs = evs
         self.ivs = ivs
-        self.moves = [move.lower().replace(' ', '-') for move in moves]
+        self.moves = [move.lower() for move in moves]
 
     def set_name(self, name: str):
         self.name = name
@@ -62,21 +62,22 @@ class Pokemon():
 
         poke_string += self.nature.value + " Nature\n"
         
-        poke_string += "IVs: "
-        first_iv = True
-        for i in range(len(self.ivs)):
-            if self.ivs[i] != 31:
-                if first_iv:
-                    poke_string += str(self.ivs[i]) + " " + Stats[i]
-                    first_iv = False
-                else:
-                    poke_string += " / " + str(self.ivs[i]) + " " + Stats[i]
-        poke_string += "\n"
+        if not(all(iv == 31 for iv in self.ivs)):
+            poke_string += "IVs: "
+            first_iv = True
+            for i in range(len(self.ivs)):
+                if self.ivs[i] != 31:
+                    if first_iv:
+                        poke_string += str(self.ivs[i]) + " " + Stats[i]
+                        first_iv = False
+                    else:
+                        poke_string += " / " + str(self.ivs[i]) + " " + Stats[i]
+            poke_string += "\n"
 
         for move in self.moves:
             poke_string += "- " + move + "\n"
-
-        return poke_string[:-2]
+ 
+        return poke_string[:-1]
     
     def check_valid_pokemon(self) -> bool:
         valid_name = self.check_valid_pokemon_name()
@@ -112,9 +113,10 @@ class Pokemon():
     
     def check_valid_moves(self, pokedex_pokemon) -> bool:
         for move in self.moves:
+            formatted_move = move.replace(" ", "-")
             move_found = False
             for pokedex_move in pokedex_pokemon.moves['scarlet-violet']:
-                if pokedex_move.name == move:
+                if pokedex_move.name == formatted_move:
                     move_found = True
                     break
             if not move_found:
