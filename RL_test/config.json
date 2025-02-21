@@ -1,0 +1,10 @@
+{
+    "learning_rate": 0.001,
+    "gamma": 0.99,
+    "epsilon_start": 1.0,
+    "epsilon_end": 0.1,
+    "epsilon_decay": 500,
+    "batch_size": 32,
+    "buffer_size": 10000,
+    "target_update": 1000
+}
