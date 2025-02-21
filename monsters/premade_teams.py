@@ -1,6 +1,86 @@
 from .pokemon_monster import Pokemon
 from .pokemon_team import PokemonTeam
 
+# Notes:
+# must have some EV's on mons
+# would be nice to check if mon is valid without losing kernel
+
+team_1 = """
+Charizard @ Heavy-Duty Boots
+Ability: Blaze
+EVs: 252 SpA / 4 SpD / 252 Spe
+Timid Nature
+- Roost
+- Flamethrower
+- Hurricane
+- Toxic
+"""
+team_2 = """
+Venusaur @ Life Orb
+Ability: Chlorophyll
+EVs: 252 SpA / 4 SpD / 252 Spe
+Modest Nature
+- Growth
+- Giga Drain
+- Weather Ball
+- Sludge Bomb
+"""
+team_char = """
+Charmander @ Leftovers
+Ability: Blaze
+EVs: 252 SpA / 4 SpD / 252 Spe
+Adamant Nature
+- Air Cutter
+- Belly Drum
+- Cut
+- Ember
+"""
+team_embchar = """
+Charmander @ Leftovers
+Ability: Blaze
+EVs: 252 SpA / 4 SpD / 252 Spe
+Adamant Nature
+- Ember
+"""
+team_bulb = """
+Bulbasaur @ Leftovers
+Ability: Overgrow
+EVs: 252 SpA / 4 SpD / 252 Spe
+Adamant Nature
+- Amnesia
+- Energy Ball
+- Outrage
+- Charm
+"""
+team_squir = """
+Squirtle @ Leftovers
+Ability: Rain Dish
+EVs: 252 SpA / 4 SpD / 252 Spe
+Adamant Nature
+- Aqua Jet
+- Bite
+- Shell Smash
+- Hail
+"""
+team_bliss = """
+Blissey @ Heavy-Duty Boots
+Ability: Natural Cure
+EVs: 252 HP / 252 Def / 4 SpD
+Bold Nature
+- Seismic Toss
+- Soft-Boiled
+- Charm
+- Disarming Voice
+"""
+team_champ = """
+Machop @ Choice Scarf
+Ability: Guts
+EVs: 252 HP / 252 Def / 4 SpD
+Bold Nature
+- Brick Break
+"""
+
+
 def get_team_1():
     calyrex_ice = Pokemon()
     calyrex_ice.set_from_string("""Calyrex-Ice @ Clear Amulet \nAbility: As One (Glastrier)  \nTera Type: Fairy  \nEVs: 252 HP / 116 Atk / 4 Def / 20 SpD / 116 Spe  \nAdamant Nature  \n- Glacial Lance  \n- High Horsepower  \n- Protect  \n- Trick Room  """)
