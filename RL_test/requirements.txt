@@ -1,0 +1,7 @@
+torch
+poke-env
+tqdm
+matplotlib
+
+# pip install -r requirements.txt 
+# need versions
