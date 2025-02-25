@@ -1,5 +1,7 @@
 from battle_utils import get_battle_info
 from poke_env import RandomPlayer
+import numpy as np
+import asyncio
 
 team_mew = """
 Mew @ Expert Belt
@@ -43,9 +45,6 @@ Relaxed Nature
 - Iron Defense
 """
 
-import numpy as np
-import asyncio
-
 
 NUM_HP_BINS = 4
 
@@ -59,6 +58,41 @@ class TestPlayer(RandomPlayer):
             print(state)
 
         return super().choose_move(battle)  # Act as a random player
+    
+class BattleEndTestPlayer(RandomPlayer):
+    def choose_move(self, battle):
+        print(f"\nTurn #: {battle.turn}")
+        # Check if battle is finished
+        if battle.finished:
+            print("Battle has ended! Observing final state...")
+            print(f"Winner: {'Agent' if battle.won else 'Opponent'}")
+            print(f"Final State: {battle}")
+        return super().choose_move(battle)
+    
+    async def _handle_battle_message(self, messages):
+        """Override battle message handling to detect when a battle ends."""
+        await super()._handle_battle_message(messages)  # Let default processing happen
+
+        # Loop through all messages to find the end of battle
+        for message in messages:
+            if "win" in message:  # "win" event is sent when a battle ends
+                print("\n🔥 Battle has ended! Observing final state... 🔥")
+                battle_id = message[-1]  # Get the winner name
+                print(f"Winner: {battle_id}")
+
+                # Get battle state
+                for battle in self.battles.values():
+                    if battle.finished:  # Check finished flag
+                        print(f"Final State: {battle}")
+
+
+
+def print_w_l_results(player):
+        for battle_tag, battle in player.battles.items():
+            won_txt = "lost"
+            if battle.won:
+                won_txt = "won"
+            print("player 3 played battle: ", battle_tag, " and ", won_txt)
 
 def print_teams(battle):
     print("Your Team:")
@@ -82,17 +116,33 @@ def print_pokemon_attributes(pokemon):
     for att in dir(pokemon):
         print (att, getattr(pokemon,att))
 
+async def test_ohko_battle(team_1, team_2, n_battles=1):
+    p3 = BattleEndTestPlayer(battle_format="gen8ou", team =
+                    """
+                    Mew @ Choice Specs
+                    Ability: Synchronize
+                    EVs: 252 SpA / 252 Spe / 4 HP
+                    Timid Nature
+                    - Psychic
+                    """)
+    p4 = RandomPlayer(battle_format="gen8ou", team =
+                    """
+                    Machop @ Leftovers
+                    Ability: No Guard
+                    EVs: 4 Atk
+                    Hardy Nature
+                    - Leer
+                    """)
+
+    await p3.battle_against(p4, n_battles=1)
+    #print_teams(battle)
+    print_w_l_results(p3)
 
 async def test_player_battle(team_1, team_2, n_battles):
     p3 = TestPlayer(battle_format="gen8ou", team = team_1)
     p4 = RandomPlayer(battle_format="gen8ou", team = team_2)
 
     await p3.battle_against(p4, n_battles=n_battles)
+    print_w_l_results(p3)
 
-    for battle_tag, battle in p3.battles.items():
-        won_txt = "lost"
-        if battle.won:
-            won_txt = "won"
-        print("player 3 played battle: ", battle_tag, " and ", won_txt)
-
-asyncio.run(test_player_battle(team_mew, team_1v3test, 1))
+asyncio.run(test_ohko_battle(team_mew, team_1v3test, 1))
