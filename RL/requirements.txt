@@ -1,0 +1,7 @@
+{
+    "poke-env"      # showdown interface    https://poke-env.readthedocs.io/en/stable/index.html
+    "torch"         # for RL
+    "torchvision"   # for RL
+    "pettingzoo"    # for gym environment:  https://gymnasium.farama.org/
+    "gymnasium"     # environment for RL:   https://pettingzoo.farama.org/
+}
